@@ -1,12 +1,41 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
-    </body>
-</html>
+{% extends "template.html.twig" %}
+
+{% block main %}
+
+    <!-- navigation bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <ul class="navbar-nav mr-auto">
+                    <li><a class="nav-link" href="">Lien 1</a></li>
+                    <li><a class="nav-link" href="">Lien 2</a></li>
+                    <li><a class="nav-link" href="">Lien 3</a></li>
+            </ul>
+            <div class="form-inline text-white">
+                <a class="btn btn-outline-info my-2 my-sm-0" href="" type="button">Connexion</a>
+            </div>
+        </div>
+    </nav>    
+    <!-- end navigation bar -->
+
+    <!-- main -->
+    <main class="container">
+        <section class="row">
+            {% block body %}{% endblock %}
+        </section>
+    </main>
+    <!-- end main -->
+
+    <!-- footer -->
+    <footer class="jumbotron jumbotron-fluid text-white bg-dark mt-4 mb-0">
+        <div class="container">
+            <p class="lead"><strong>Up Side Down</strong> Copyright © 2020 Franck Leuyer. Tous droits réservés.</p>
+        </div>
+    </footer>
+    <!-- end footer -->
+
+{% endblock %}
+
+
