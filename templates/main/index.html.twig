@@ -2,6 +2,127 @@
 
 {% block title %}Up Side Down{% endblock %}
 
+{% block stylesheets %}
+    <style>
+        div.zabuto_calendar .badge-event,
+        div.zabuto_calendar div.legend span.badge-event {
+            background: rgb(209, 66, 66) !important;
+            color: #fff;
+            text-shadow: none;
+        }
+
+        div.zabuto_calendar .table tr td.event div.day,
+        div.zabuto_calendar ul.legend li.event {
+        background-color: rgb(176, 255, 220) !important;
+        }
+
+        .proposition {
+            background-color:rgb(202, 225, 255) !important;
+        }
+
+    </style>
+{% endblock %}
+
 {% block body %}
-    <h1>Hello !</h1>
+    <main class="container">
+        <div id="date-popover" class="popover top" >
+           
+            <div id="date-popover-content" class="popover-content"></div>
+        </div>
+        <div id="my-calendar"></div>
+    </main>
+    <div class="container">
+        <div>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sed turpis quis purus dictum suscipit. Ut eleifend nunc euismod pulvinar vestibulum. Aliquam dignissim, libero vel.</p>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <!-- <script src="zabuto_calendar.min.js"></script> -->
+    <script src="{{ asset('js/zabuto_calendar.js') }}"></script>
+
+    <!-- initialize the calendar on ready -->
+    <script type="application/javascript">
+
+        var eventData = [
+            {"date":"2020-12-16", "badge":true,"title":"Example 1", "classname":"proposition"},
+            {"date":"2020-12-04","badge":false},
+            {"date":"2020-12-05","badge":false},
+            {"date":"2020-12-06","badge":false},
+            {"date":"2020-12-11","badge":false,"title":"Example 2","classname":"proposition"},
+            {"date":"2020-12-12","badge":false,"title":"Example 2","classname":"proposition"},
+            {"date":"2020-12-13","badge":false},
+            {"date":"2020-12-18","badge":false},
+            {"date":"2020-12-19","badge":false},
+            {"date":"2020-12-20","badge":false},
+            {"date":"2020-12-26","badge":false},
+            {"date":"2020-12-27","badge":false,"title":"Example 3","classname":"proposition"},
+        ];
+
+        var elem = jQuery('#my-calendar');
+
+        function loadCalendar(){
+            elem.empty().zabuto_calendar({
+                language: "fr",
+                cell_border: true,
+                today: false,
+                show_previous: false,
+                show_next: 6,
+                // show_days: false,
+                // weekstartson: 0,
+                nav_icon: {
+                    prev: '<i class="fa fa-chevron-circle-left"></i>',
+                    next: '<i class="fa fa-chevron-circle-right"></i>'
+                },
+                data: eventData,
+                // ajax: {
+                //      url: "show_data.php",
+                //      modal: true
+                // },
+                action: function () {
+                    return myDateFunction(this.id);
+                },
+                action_nav: function () {
+                    return myNavFunction(this.id);
+                },
+                legend: [
+                    {type: "block", label: "Disponible"},
+                    {type: "block", label: "Proposé","classname":"proposition"},
+                    {type: "text", label: "Planifié", badge: "00"}
+                ]
+            });
+        };
+
+        $(document).ready(function () {
+            loadCalendar()
+        });
+
+        function myDateFunction(id) {
+            var date = $("#" + id).data("date");
+            var hasEvent = $("#" + id).data("hasEvent");
+            console.log($("#" + id).data);
+            console.log('date: ' + date + ' hasEvent: ' + hasEvent);
+            // si date < today -> pas d'action
+
+            if (hasEvent) {
+                // si pas de date proposé ou planifié -> rendre indispo
+                // si date proposé, non planifié -> planifier
+
+            } else {
+                // pas d'evt ce jour -> rendre dispo
+                eventData = [{"date":date,"badge":false,"title":"Ajouté"}];
+                // console.log(eventData)
+                loadCalendar()
+            }
+        }
+
+        function myNavFunction(id) {
+            var nav = $("#" + id).data("navigation");
+            var to = $("#" + id).data("to");
+            console.log('nav ' + nav + ' to: ' + to.month + '/' + to.year);
+        }
+
+    </script>
+
 {% endblock %}
