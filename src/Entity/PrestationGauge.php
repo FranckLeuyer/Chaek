@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\PrestationGaugeRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -22,6 +24,16 @@ class PrestationGauge
      */
     private $description;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Prestation::class, mappedBy="gauge", orphanRemoval=true)
+     */
+    private $prestations;
+
+    public function __construct()
+    {
+        $this->prestations = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -35,6 +47,36 @@ class PrestationGauge
     public function setDescription(string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Prestation[]
+     */
+    public function getPrestations(): Collection
+    {
+        return $this->prestations;
+    }
+
+    public function addPrestation(Prestation $prestation): self
+    {
+        if (!$this->prestations->contains($prestation)) {
+            $this->prestations[] = $prestation;
+            $prestation->setGauge($this);
+        }
+
+        return $this;
+    }
+
+    public function removePrestation(Prestation $prestation): self
+    {
+        if ($this->prestations->removeElement($prestation)) {
+            // set the owning side to null (unless already changed)
+            if ($prestation->getGauge() === $this) {
+                $prestation->setGauge(null);
+            }
+        }
 
         return $this;
     }
