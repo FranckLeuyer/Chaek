@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit UserCategory{% endblock %}
+{% block title %}Modifier la catégorie{% endblock %}
 
 {% block body %}
-    <h1>Edit UserCategory</h1>
+    <h1>Modifier la catégorie</h1>
 
-    {{ include('user_category/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('user_category/_form.html.twig', {'button_label': 'Modifier'}) }}
 
-    <a href="{{ path('user_category_index') }}">back to list</a>
+    <a href="{{ path('user_category_index') }}">retour à la liste</a>
 
     {{ include('user_category/_delete_form.html.twig') }}
 {% endblock %}

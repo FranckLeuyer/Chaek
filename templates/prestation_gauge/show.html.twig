@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}PrestationGauge{% endblock %}
+{% block title %}Jauge{% endblock %}
 
 {% block body %}
-    <h1>PrestationGauge</h1>
+    <h1>Jauge</h1>
 
     <table class="table">
         <tbody>
@@ -18,9 +18,9 @@
         </tbody>
     </table>
 
-    <a href="{{ path('prestation_gauge_index') }}">back to list</a>
+    <a href="{{ path('prestation_gauge_index') }}">retour à la liste</a>
 
-    <a href="{{ path('prestation_gauge_edit', {'id': prestation_gauge.id}) }}">edit</a>
+    <a href="{{ path('prestation_gauge_edit', {'id': prestation_gauge.id}) }}">Modifier</a>
 
     {{ include('prestation_gauge/_delete_form.html.twig') }}
 {% endblock %}

@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}PrestationObject{% endblock %}
+{% block title %}Objet de prestations{% endblock %}
 
 {% block body %}
-    <h1>PrestationObject</h1>
+    <h1>Objet de prestations</h1>
 
     <table class="table">
         <tbody>
@@ -18,9 +18,9 @@
         </tbody>
     </table>
 
-    <a href="{{ path('prestation_object_index') }}">back to list</a>
+    <a href="{{ path('prestation_object_index') }}">retour à la liste</a>
 
-    <a href="{{ path('prestation_object_edit', {'id': prestation_object.id}) }}">edit</a>
+    <a href="{{ path('prestation_object_edit', {'id': prestation_object.id}) }}">Modifier</a>
 
     {{ include('prestation_object/_delete_form.html.twig') }}
 {% endblock %}

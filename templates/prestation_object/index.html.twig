@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}PrestationObject index{% endblock %}
+{% block title %}Liste des objets de prestation{% endblock %}
 
 {% block body %}
-    <h1>PrestationObject index</h1>
+    <h1>Liste des objets de prestation</h1>
 
     <table class="table">
         <thead>
@@ -19,17 +19,17 @@
                 <td>{{ prestation_object.id }}</td>
                 <td>{{ prestation_object.description }}</td>
                 <td>
-                    <a href="{{ path('prestation_object_show', {'id': prestation_object.id}) }}">show</a>
-                    <a href="{{ path('prestation_object_edit', {'id': prestation_object.id}) }}">edit</a>
+                    <a href="{{ path('prestation_object_show', {'id': prestation_object.id}) }}">Montrer</a>
+                    <a href="{{ path('prestation_object_edit', {'id': prestation_object.id}) }}">Modifier</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="3">no records found</td>
+                <td colspan="3">Aucun enregistrement trouvé</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('prestation_object_new') }}">Create new</a>
+    <a href="{{ path('prestation_object_new') }}">Nouveau</a>
 {% endblock %}

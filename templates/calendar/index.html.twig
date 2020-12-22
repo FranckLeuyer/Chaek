@@ -25,17 +25,17 @@
                 <td>{{ calendar.title }}</td>
                 <td>{{ calendar.classname }}</td>
                 <td>
-                    <a href="{{ path('calendar_show', {'id': calendar.id}) }}">show</a>
-                    <a href="{{ path('calendar_edit', {'id': calendar.id}) }}">edit</a>
+                    <a href="{{ path('calendar_show', {'id': calendar.id}) }}">Montrer</a>
+                    <a href="{{ path('calendar_edit', {'id': calendar.id}) }}">Modifier</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="6">no records found</td>
+                <td colspan="6">Aucun enregistrement trouvé</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('calendar_new') }}">Create new</a>
+    <a href="{{ path('calendar_new') }}">Nouveau</a>
 {% endblock %}

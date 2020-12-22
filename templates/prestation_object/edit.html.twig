@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit PrestationObject{% endblock %}
+{% block title %}Modifier l'objet de prestation{% endblock %}
 
 {% block body %}
-    <h1>Edit PrestationObject</h1>
+    <h1>Modifier l'objet de prestation</h1>
 
-    {{ include('prestation_object/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('prestation_object/_form.html.twig', {'button_label': 'Modifier'}) }}
 
-    <a href="{{ path('prestation_object_index') }}">back to list</a>
+    <a href="{{ path('prestation_object_index') }}">retour à la liste</a>
 
     {{ include('prestation_object/_delete_form.html.twig') }}
 {% endblock %}
