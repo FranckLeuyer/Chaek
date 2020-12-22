@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PrestationOrganization{% endblock %}
+
+{% block body %}
+    <h1>PrestationOrganization</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ prestation_organization.id }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ prestation_organization.description }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('prestation_organization_index') }}">back to list</a>
+
+    <a href="{{ path('prestation_organization_edit', {'id': prestation_organization.id}) }}">edit</a>
+
+    {{ include('prestation_organization/_delete_form.html.twig') }}
+{% endblock %}

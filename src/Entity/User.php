@@ -104,6 +104,11 @@ class User implements UserInterface
      */
     private $prestations;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Calendar::class, mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $calendar;
+
     public function __construct()
     {
         $this->prestations = new ArrayCollection();
@@ -354,6 +359,23 @@ class User implements UserInterface
         if ($this->prestations->removeElement($prestation)) {
             $prestation->removeUser($this);
         }
+
+        return $this;
+    }
+
+    public function getCalendar(): ?Calendar
+    {
+        return $this->calendar;
+    }
+
+    public function setCalendar(Calendar $calendar): self
+    {
+        // set the owning side of the relation if necessary
+        if ($calendar->getUser() !== $this) {
+            $calendar->setUser($this);
+        }
+
+        $this->calendar = $calendar;
 
         return $this;
     }

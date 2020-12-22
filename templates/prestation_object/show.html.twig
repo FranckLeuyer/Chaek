@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PrestationObject{% endblock %}
+
+{% block body %}
+    <h1>PrestationObject</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ prestation_object.id }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ prestation_object.description }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('prestation_object_index') }}">back to list</a>
+
+    <a href="{{ path('prestation_object_edit', {'id': prestation_object.id}) }}">edit</a>
+
+    {{ include('prestation_object/_delete_form.html.twig') }}
+{% endblock %}

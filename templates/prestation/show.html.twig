@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Prestation{% endblock %}
+
+{% block body %}
+    <h1>Prestation</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ prestation.id }}</td>
+            </tr>
+            <tr>
+                <th>StartDate</th>
+                <td>{{ prestation.startDate ? prestation.startDate|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>EndDate</th>
+                <td>{{ prestation.endDate ? prestation.endDate|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ prestation.email }}</td>
+            </tr>
+            <tr>
+                <th>Message</th>
+                <td>{{ prestation.message }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ prestation.title }}</td>
+            </tr>
+            <tr>
+                <th>Comment</th>
+                <td>{{ prestation.comment }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('prestation_index') }}">back to list</a>
+
+    <a href="{{ path('prestation_edit', {'id': prestation.id}) }}">edit</a>
+
+    {{ include('prestation/_delete_form.html.twig') }}
+{% endblock %}

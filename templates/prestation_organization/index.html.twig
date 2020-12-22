@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PrestationOrganization index{% endblock %}
+
+{% block body %}
+    <h1>PrestationOrganization index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Description</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for prestation_organization in prestation_organizations %}
+            <tr>
+                <td>{{ prestation_organization.id }}</td>
+                <td>{{ prestation_organization.description }}</td>
+                <td>
+                    <a href="{{ path('prestation_organization_show', {'id': prestation_organization.id}) }}">show</a>
+                    <a href="{{ path('prestation_organization_edit', {'id': prestation_organization.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('prestation_organization_new') }}">Create new</a>
+{% endblock %}
