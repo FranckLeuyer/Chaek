@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}UserCategory{% endblock %}
+{% block title %}Catégorie{% endblock %}
 
 {% block body %}
-    <h1>UserCategory</h1>
+    <h1>Catégorie</h1>
 
     <table class="table">
         <tbody>
@@ -18,9 +18,9 @@
         </tbody>
     </table>
 
-    <a href="{{ path('user_category_index') }}">back to list</a>
+    <a href="{{ path('user_category_index') }}">retour à la liste</a>
 
-    <a href="{{ path('user_category_edit', {'id': user_category.id}) }}">edit</a>
+    <a href="{{ path('user_category_edit', {'id': user_category.id}) }}">Modifier</a>
 
     {{ include('user_category/_delete_form.html.twig') }}
 {% endblock %}

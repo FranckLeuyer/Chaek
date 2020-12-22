@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}PrestationGauge index{% endblock %}
+{% block title %}Liste des jauges{% endblock %}
 
 {% block body %}
-    <h1>PrestationGauge index</h1>
+    <h1>Liste des jauges</h1>
 
     <table class="table">
         <thead>
@@ -19,17 +19,17 @@
                 <td>{{ prestation_gauge.id }}</td>
                 <td>{{ prestation_gauge.description }}</td>
                 <td>
-                    <a href="{{ path('prestation_gauge_show', {'id': prestation_gauge.id}) }}">show</a>
-                    <a href="{{ path('prestation_gauge_edit', {'id': prestation_gauge.id}) }}">edit</a>
+                    <a href="{{ path('prestation_gauge_show', {'id': prestation_gauge.id}) }}">Montrer</a>
+                    <a href="{{ path('prestation_gauge_edit', {'id': prestation_gauge.id}) }}">Modifier</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="3">no records found</td>
+                <td colspan="3">Aucun enregistrement trouvé</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('prestation_gauge_new') }}">Create new</a>
+    <a href="{{ path('prestation_gauge_new') }}">Nouveau</a>
 {% endblock %}

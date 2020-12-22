@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New PrestationObject{% endblock %}
+{% block title %}Nouvel objet de prestation{% endblock %}
 
 {% block body %}
-    <h1>Create new PrestationObject</h1>
+    <h1>Nouvel objet de prestation</h1>
 
     {{ include('prestation_object/_form.html.twig') }}
 
-    <a href="{{ path('prestation_object_index') }}">back to list</a>
+    <a href="{{ path('prestation_object_index') }}">retour à la liste</a>
 {% endblock %}

@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Prestation index{% endblock %}
+{% block title %}Liste des prestations{% endblock %}
 
 {% block body %}
-    <h1>Prestation index</h1>
+    <h1>Liste des prestations</h1>
 
     <table class="table">
         <thead>
@@ -29,17 +29,17 @@
                 <td>{{ prestation.title }}</td>
                 <td>{{ prestation.comment }}</td>
                 <td>
-                    <a href="{{ path('prestation_show', {'id': prestation.id}) }}">show</a>
-                    <a href="{{ path('prestation_edit', {'id': prestation.id}) }}">edit</a>
+                    <a href="{{ path('prestation_show', {'id': prestation.id}) }}">Montrer</a>
+                    <a href="{{ path('prestation_edit', {'id': prestation.id}) }}">Modifier</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="8">no records found</td>
+                <td colspan="8">Aucun enregistrement trouvé</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('prestation_new') }}">Create new</a>
+    <a href="{{ path('prestation_new') }}">Nouveau</a>
 {% endblock %}
