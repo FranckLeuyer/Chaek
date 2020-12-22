@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Intervenants{% endblock %}
+
+{% block body %}
+    <h1>Liste des intervenants</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                {# <th>Id</th> #}
+                <th>Email</th>
+                {# <th>Roles</th>
+                <th>Password</th> #}
+                <th>Civilité</th>
+                <th>Prénom</th>
+                <th>Nom</th>
+                {# <th>AdressLine1</th>
+                <th>AdressLine2</th>
+                <th>ZipCode</th>
+                <th>City</th>
+                <th>Country</th> #}
+                <th>Congé Spectacle</th>
+                <th>GUSO</th>
+                {# <th>IsVerified</th> #}
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                {# <td>{{ user.id }}</td> #}
+                <td>{{ user.email }}</td>
+                {# <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
+                <td>{{ user.password }}</td> #}
+                <td>{{ user.civility }}</td>
+                <td>{{ user.firstName }}</td>
+                <td>{{ user.lastName }}</td>
+                {# <td>{{ user.adressLine1 }}</td>
+                <td>{{ user.adressLine2 }}</td>
+                <td>{{ user.zipCode }}</td>
+                <td>{{ user.City }}</td>
+                <td>{{ user.country }}</td> #}
+                <td>{{ user.numCongeSpectacle }}</td>
+                <td>{{ user.numGuso }}</td>
+                {# <td>{{ user.isVerified ? 'Yes' : 'No' }}</td> #}
+                <td>
+                    <a href="{{ path('user_show', {'id': user.id}) }}">Montrer</a>
+                    <a href="{{ path('user_edit', {'id': user.id}) }}">Modifier</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="16">Pas d'enregistrement trouvé</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('user_new') }}">Nouveau</a>
+{% endblock %}

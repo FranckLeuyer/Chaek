@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PrestationGauge index{% endblock %}
+
+{% block body %}
+    <h1>PrestationGauge index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Description</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for prestation_gauge in prestation_gauges %}
+            <tr>
+                <td>{{ prestation_gauge.id }}</td>
+                <td>{{ prestation_gauge.description }}</td>
+                <td>
+                    <a href="{{ path('prestation_gauge_show', {'id': prestation_gauge.id}) }}">show</a>
+                    <a href="{{ path('prestation_gauge_edit', {'id': prestation_gauge.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('prestation_gauge_new') }}">Create new</a>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PrestationGauge{% endblock %}
+
+{% block body %}
+    <h1>PrestationGauge</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ prestation_gauge.id }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ prestation_gauge.description }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('prestation_gauge_index') }}">back to list</a>
+
+    <a href="{{ path('prestation_gauge_edit', {'id': prestation_gauge.id}) }}">edit</a>
+
+    {{ include('prestation_gauge/_delete_form.html.twig') }}
+{% endblock %}
