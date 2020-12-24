@@ -29,7 +29,7 @@
            
             <div id="date-popover-content" class="popover-content"></div>
         </div>
-        <div id="my-calendar"></div>
+        <div id="my-calendar">Chargement en cours ...</div>
     </main>
     <div class="container">
         <div>
@@ -45,11 +45,13 @@
     <!-- initialize the calendar on ready -->
     <script type="application/javascript">
 
-        var eventData = [
+        var displayedDate = new Date();
+
+/*        var eventData = [
             {"date":"2020-12-16", "badge":true,"title":"Example 1", "classname":"proposition"},
-            {"date":"2020-12-04","badge":false},
-            {"date":"2020-12-05","badge":false},
-            {"date":"2020-12-06","badge":false},
+            {"date":"2020-12-04"},
+            {"date":"2020-12-05"},
+            {"date":"2020-12-06"},
             {"date":"2020-12-11","badge":false,"title":"Example 2","classname":"proposition"},
             {"date":"2020-12-12","badge":false,"title":"Example 2","classname":"proposition"},
             {"date":"2020-12-13","badge":false},
@@ -59,6 +61,8 @@
             {"date":"2020-12-26","badge":false},
             {"date":"2020-12-27","badge":false,"title":"Example 3","classname":"proposition"},
         ];
+*/
+        var eventData = [];
 
         var elem = jQuery('#my-calendar');
 
@@ -94,33 +98,79 @@
             });
         };
 
-        $(document).ready(function () {
-            loadCalendar()
+        $(document).ready(function () {           
+            let periode = displayedDate.getFullYear() + '-' + (displayedDate.getMonth() + 1)
+            loadEventData(periode)
         });
 
         function myDateFunction(id) {
             var date = $("#" + id).data("date");
             var hasEvent = $("#" + id).data("hasEvent");
-            console.log($("#" + id).data);
-            console.log('date: ' + date + ' hasEvent: ' + hasEvent);
-            // si date < today -> pas d'action
+            var proposed = $("#" + id).hasClass("event-styled");
 
             if (hasEvent) {
-                // si pas de date proposé ou planifié -> rendre indispo
-                // si date proposé, non planifié -> planifier
+                let idx = eventData.findIndex(obj => obj.date == date);
+                let evt = eventData.find(obj => obj.date == date);
+                console.log(evt);
 
+                if (!proposed) {                   
+                    // si pas de date proposé ou planifié -> rendre indispo
+                    eventData.splice(idx, 1);
+                    updateDB( date, 'delete');
+                } else if (!evt.badge) { 
+                    evt.badge = true;
+                    updateDB( date, 'setbadge');
+                }
             } else {
                 // pas d'evt ce jour -> rendre dispo
-                eventData = [{"date":date,"badge":false,"title":"Ajouté"}];
-                // console.log(eventData)
-                loadCalendar()
+                const newEvent = Object.fromEntries(new Map([['date', date]]));                
+                eventData.push(newEvent);
+                updateDB( date, 'set');
             }
+            loadCalendar()
         }
 
         function myNavFunction(id) {
             var nav = $("#" + id).data("navigation");
             var to = $("#" + id).data("to");
             console.log('nav ' + nav + ' to: ' + to.month + '/' + to.year);
+        }
+
+        function loadEventData(periode) {
+
+            httpRequest = new XMLHttpRequest();
+
+            httpRequest.onreadystatechange = function() {
+                if (httpRequest.readyState === XMLHttpRequest.DONE) {
+                    if (httpRequest.status === 200) {
+                        eventData = JSON.parse(httpRequest.responseText);
+                        loadCalendar();
+                    } else {
+                        alert("Une erreur est survenue");
+                    }
+                }
+            };
+
+            httpRequest.open('GET', '/calendar/api/get/' + periode, true);
+            httpRequest.send();
+        }
+
+        function updateDB( date, action) {
+
+            httpRequest = new XMLHttpRequest();
+
+            httpRequest.onreadystatechange = function() {
+                if (httpRequest.readyState === XMLHttpRequest.DONE) {
+                    if (httpRequest.status === 200) {
+                        console.log( 'action : ' + action + '/' + date + ' done')
+                    } else {
+                        alert("Une erreur est survenue");
+                    }
+                }
+            };
+
+            httpRequest.open('GET', '/calendar/api/' + action + '/' + date, true);
+            httpRequest.send();
         }
 
     </script>

@@ -109,9 +109,15 @@ class User implements UserInterface
      */
     private $calendar;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Calendar::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $calendars;
+
     public function __construct()
     {
         $this->prestations = new ArrayCollection();
+        $this->calendars = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -363,19 +369,49 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getCalendar(): ?Calendar
+    // public function getCalendar(): ?Calendar
+    // {
+    //     return $this->calendar;
+    // }
+
+    // public function setCalendar(Calendar $calendar): self
+    // {
+    //     // set the owning side of the relation if necessary
+    //     if ($calendar->getUser() !== $this) {
+    //         $calendar->setUser($this);
+    //     }
+
+    //     $this->calendar = $calendar;
+
+    //     return $this;
+    // }
+
+    /**
+     * @return Collection|Calendar[]
+     */
+    public function getCalendars(): Collection
     {
-        return $this->calendar;
+        return $this->calendars;
     }
 
-    public function setCalendar(Calendar $calendar): self
+    public function addCalendar(Calendar $calendar): self
     {
-        // set the owning side of the relation if necessary
-        if ($calendar->getUser() !== $this) {
+        if (!$this->calendars->contains($calendar)) {
+            $this->calendars[] = $calendar;
             $calendar->setUser($this);
         }
 
-        $this->calendar = $calendar;
+        return $this;
+    }
+
+    public function removeCalendar(Calendar $calendar): self
+    {
+        if ($this->calendars->removeElement($calendar)) {
+            // set the owning side to null (unless already changed)
+            if ($calendar->getUser() === $this) {
+                $calendar->setUser(null);
+            }
+        }
 
         return $this;
     }

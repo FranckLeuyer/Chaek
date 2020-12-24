@@ -16,8 +16,8 @@ class CalendarType extends AbstractType
             ->add('badge')
             ->add('title')
             ->add('classname')
-            ->add('user')
-            ->add('prestation')
+            // ->add('user')
+            // ->add('prestation')
         ;
     }
 

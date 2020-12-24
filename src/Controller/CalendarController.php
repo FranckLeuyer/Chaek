@@ -9,12 +9,148 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use DateTime;
+use DateInterval;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 /**
  * @Route("/calendar")
  */
 class CalendarController extends AbstractController
 {
+    /**
+     * @Route("/api/set/{dateRef}", name="api_set_event", methods={"GET"})
+     */
+    public function setEvent($dateRef, CalendarRepository $calendarRepository): Response
+    {
+        dump($dateRef);
+
+        $calendar = new Calendar();
+        $calendar->setDate(new DateTime($dateRef));
+        $calendar->setBadge(false);
+        $calendar->setUser($this->getUser());
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($calendar);
+        $entityManager->flush();
+
+        return $this->render('calendar/index.html.twig', [
+            'calendars' => $calendarRepository->findAll(),
+        ]);
+    }
+
+    /**
+     * @Route("/api/delete/{dateRef}", name="api_delete_event", methods={"GET"})
+     */
+    public function deleteEvent($dateRef, CalendarRepository $calendarRepository): Response
+    {
+        dump($dateRef);
+        $calendar = $calendarRepository->findOneBy([
+            "date" => new DateTime($dateRef),
+            "user" => $this->getUser()
+        ]);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($calendar);
+        $entityManager->flush();
+
+
+        return $this->render('calendar/index.html.twig', [
+            'calendars' => $calendarRepository->findAll(),
+        ]);
+    }
+
+    /**
+     * @Route("/api/setbadge/{dateRef}", name="api_update_event", methods={"GET"})
+     */
+    public function updateEvent($dateRef, CalendarRepository $calendarRepository): Response
+    {
+        dump($dateRef);
+        $calendar = $calendarRepository->findOneBy([
+            "date" => new DateTime($dateRef),
+            "user" => $this->getUser()
+        ]);
+        $calendar->setBadge(true);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->flush();
+
+        return $this->render('calendar/index.html.twig', [
+            'calendars' => $calendarRepository->findAll(),
+        ]);
+    }
+
+    /**
+     * @Route("/api/get/{dateRef}", name="api_month_event", methods={"GET"})
+     */
+    public function monthEventsShow($dateRef, CalendarRepository $calendarRepository): Response
+    {
+        $dateRef .= '-01';
+        $startDate = new DateTime($dateRef);
+        $endDate = new DateTime($dateRef);
+
+        $interval = new DateInterval('P5M');
+        $endDate->add($interval);
+        $endDate = $endDate->modify('last day of this month');
+
+        $calendars = $calendarRepository->findByMonthEvents($startDate, $endDate,  $this->getUser());
+
+        // Usefull code for debug
+        // return $this->render('calendar/index.html.twig', [
+        //     'calendars' => $calendars,
+        // ]);
+
+        // {"date":"2020-12-16", "badge":true,"title":"Example 1", "classname":"proposition"},
+        // {"date":"2020-12-04","badge":false},
+        // {"date":"2020-12-05","badge":false},
+        // {"date":"2020-12-06","badge":false},
+        // {"date":"2020-12-11","badge":false,"title":"Example 2","classname":"proposition"},
+
+        $data = [];
+        foreach ($calendars as $calendar){
+            $event = [];
+            $event['date'] = $calendar->getDate()->format('Y-m-d');
+            if (!is_null($calendar->getBadge())) $event['badge'] = $calendar->getBadge();
+            if (!is_null($calendar->getTitle())) $event['title'] = $calendar->getTitle();
+            if (!is_null($calendar->getClassname())) $event['classname'] = $calendar->getClassname();
+            $data[] = $event;
+        }
+        return $this->json($data);       
+
+        
+        // $normalizer = new ObjectNormalizer();
+        // $encoder = new JsonEncoder();
+        
+        // $serializer = new Serializer([$normalizer], [$encoder]);
+        // $output = $serializer->serialize($data, 'json', ['ignored_attributes' => ['user', 'transitions']]);
+
+        // $response = new Response($output);
+        // $response->headers->set('Content-Type', 'application/json');
+        // return $response;
+
+/*
+        $data = [];
+        foreach ($calendars as $calendar){
+            $data[] = $calendar;
+        }
+        
+        $normalizer = new ObjectNormalizer();
+        $encoder = new JsonEncoder();
+        
+        $serializer = new Serializer([$normalizer], [$encoder]);
+        $output = $serializer->serialize($data, 'json', ['ignored_attributes' => ['user', 'transitions']]);
+
+        $response = new Response($output);
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+*/
+
+        // $calendar = new Calendar();
+        // $calendar->setDate(new \DateTime());
+        // $data[] = $calendar;
+        // return $this->json($data);       
+    }
+
     /**
      * @Route("/", name="calendar_index", methods={"GET"})
      */
@@ -35,6 +171,7 @@ class CalendarController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $calendar->setUser($this->getUser());
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($calendar);
             $entityManager->flush();

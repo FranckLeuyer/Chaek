@@ -6,6 +6,8 @@ use App\Entity\Prestation;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use App\Entity\PrestationOrganization;
 use App\Entity\PrestationObject;
@@ -31,8 +33,12 @@ class PrestationType extends AbstractType
                 "class" => PrestationGauge::class,
                 "choice_label" => 'description'
             ])
-            ->add('startDate')
-            ->add('endDate')
+            ->add('startDate', DateTimeType::class, [
+                'date_widget' => 'single_text'
+            ])
+            ->add('endDate', DateTimeType::class, [
+                'date_widget' => 'single_text'
+            ])
             ->add('email')
             ->add('message')
             // ->add('title')
