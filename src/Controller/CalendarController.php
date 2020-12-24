@@ -14,8 +14,10 @@ use DateInterval;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
+ * @IsGranted("IS_AUTHENTICATED_FULLY")
  * @Route("/calendar")
  */
 class CalendarController extends AbstractController

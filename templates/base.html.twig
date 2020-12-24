@@ -10,12 +10,37 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <ul class="navbar-nav mr-auto">
-                <li><a class="nav-link" href="">Agenda</a></li>
-                <li><a class="nav-link" href="">Discussion</a></li>
-                <li><a class="nav-link" href="">Documents</a></li>
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    <li><a class="nav-link" href="{{ path("app_agenda") }}">Agenda</a></li>
+                    <li><a class="nav-link" href="{{ path("app_dicussion") }}">Discussion</a></li>
+                    <li><a class="nav-link" href="{{ path("app_documents") }}">Documents</a></li>
+                {% else %}
+                    <li><a class="nav-link" href="{{ path("app_home") }}">Biographie</a></li>
+                    <li><a class="nav-link" href="{{ path("app_download") }}">Téléchargement</a></li>
+                    <li><a class="nav-link" href="{{ path("app_proposition") }}">Demande de prestation</a></li>
+                {% endif %}
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="operations" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Administration
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="operations">
+                            <a class="dropdown-item" href="{{ path("prestation_index") }}">Prestations</a>
+                            <a class="dropdown-item" href="{{ path("user_index") }}">Intervenants</a>
+                            <a class="dropdown-item" href="{{ path("user_category_index") }}">Categorie intervenant</a>
+                            <a class="dropdown-item" href="{{ path("prestation_organization_index") }}">Type organisation</a>
+                            <a class="dropdown-item" href="{{ path("prestation_object_index") }}">Type événement</a>
+                            <a class="dropdown-item" href="{{ path("prestation_gauge_index") }}">Jauge</a>
+                        </div>
+                    </li>
+                {% endif %}
             </ul>
             <div class="form-inline text-white">
-                <a class="btn btn-outline-info my-2 my-sm-0" href="" type="button">Déconnexion</a>
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    <a class="btn btn-outline-info my-2 my-sm-0" href="{{ path("app_logout") }}" type="button">Déconnexion</a>
+                {% else %}
+                    <a class="btn btn-outline-info my-2 my-sm-0" href="{{ path("app_login") }}" type="button">Connexion</a>
+                {% endif %}
             </div>
         </div>
     </nav>    
