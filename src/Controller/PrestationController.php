@@ -3,14 +3,16 @@
 namespace App\Controller;
 
 use App\Entity\Prestation;
-use App\Form\PrestationType;
+use App\Form\PrestationUpdateType;
 use App\Repository\PrestationRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
+ * @IsGranted("ROLE_ADMIN")
  * @Route("/prestation")
  */
 class PrestationController extends AbstractController
@@ -31,7 +33,7 @@ class PrestationController extends AbstractController
     public function new(Request $request): Response
     {
         $prestation = new Prestation();
-        $form = $this->createForm(PrestationType::class, $prestation);
+        $form = $this->createForm(PrestationUpdateType::class, $prestation);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -63,7 +65,7 @@ class PrestationController extends AbstractController
      */
     public function edit(Request $request, Prestation $prestation): Response
     {
-        $form = $this->createForm(PrestationType::class, $prestation);
+        $form = $this->createForm(PrestationUpdateType::class, $prestation);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
