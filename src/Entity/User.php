@@ -105,11 +105,6 @@ class User implements UserInterface
     private $prestations;
 
     /**
-     * @ORM\OneToOne(targetEntity=Calendar::class, mappedBy="user", cascade={"persist", "remove"})
-     */
-    private $calendar;
-
-    /**
      * @ORM\OneToMany(targetEntity=Calendar::class, mappedBy="user", orphanRemoval=true)
      */
     private $calendars;

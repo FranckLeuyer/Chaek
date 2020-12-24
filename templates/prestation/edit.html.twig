@@ -1,8 +1,26 @@
 {% extends 'base.html.twig' %}
 
+{% block stylesheets %}
+    <style>
+        #prestation_startDate_time_hour {
+            display:none;
+        }
+        #prestation_endDate_time_hour {
+            display:none;
+        }
+        #prestation_startDate_time_minute {
+            display:none;
+        }
+        #prestation_endDate_time_minute {
+            display:none;
+        }
+    </style>    
+{% endblock %}
+
 {% block title %}Modifier Prestation{% endblock %}
 
 {% block body %}
+
     <h1>Modifier Prestation</h1>
 
     {{ include('prestation/_form.html.twig', {'button_label': 'Modifier'}) }}
@@ -10,4 +28,5 @@
     <a href="{{ path('prestation_index') }}">retour à la liste</a>
 
     {{ include('prestation/_delete_form.html.twig') }}
+
 {% endblock %}

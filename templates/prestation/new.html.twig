@@ -2,10 +2,16 @@
 
 {% block stylesheets %}
     <style>
-        #prestation_startDate_time {
+        #prestation_startDate_time_hour {
             display:none;
         }
-        #prestation_endDate_time {
+        #prestation_endDate_time_hour {
+            display:none;
+        }
+        #prestation_startDate_time_minute {
+            display:none;
+        }
+        #prestation_endDate_time_minute {
             display:none;
         }
     </style>    
@@ -14,9 +20,11 @@
 {% block title %}Nouvelle Prestation{% endblock %}
 
 {% block body %}
+
     <h1>Nouvelle Prestation</h1>
 
     {{ include('prestation/_form.html.twig') }}
 
     <a href="{{ path('prestation_index') }}">retour à la liste</a>
+
 {% endblock %}
