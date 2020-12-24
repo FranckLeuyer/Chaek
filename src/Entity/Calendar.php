@@ -18,12 +18,6 @@ class Calendar
     private $id;
 
     /**
-     * @ORM\OneToOne(targetEntity=User::class, inversedBy="calendar", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $user;
-
-    /**
      * @ORM\Column(type="date")
      */
     private $date;
@@ -47,6 +41,12 @@ class Calendar
      * @ORM\ManyToOne(targetEntity=Prestation::class)
      */
     private $prestation;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="calendars")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
 
     public function getId(): ?int
     {

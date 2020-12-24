@@ -19,6 +19,25 @@ class CalendarRepository extends ServiceEntityRepository
         parent::__construct($registry, Calendar::class);
     }
 
+    /**
+     * @return Calendar[] Returns an array of Calendar objects
+     */
+    public function findByMonthEvents($startDate, $endDate, $userId)
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.user = :userId')
+            ->andWhere('c.date >= :startDate')
+            ->andWhere('c.date <= :endDate')
+            ->setParameter('userId', $userId)
+            ->setParameter('startDate', $startDate)
+            ->setParameter('endDate', $endDate)
+            // ->orderBy('c.id', 'ASC')
+            // ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     // /**
     //  * @return Calendar[] Returns an array of Calendar objects
     //  */
