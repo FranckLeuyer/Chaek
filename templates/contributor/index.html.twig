@@ -35,6 +35,7 @@
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sed turpis quis purus dictum suscipit. Ut eleifend nunc euismod pulvinar vestibulum. Aliquam dignissim, libero vel.</p>
         </div>
     </div>
+    <div class="js-event-data" data-event-data="{{ events }}"></div> 
 {% endblock %}
 
 {% block javascripts %}
@@ -44,7 +45,23 @@
     <!-- initialize the calendar on ready -->
     <script type="application/javascript">
 
+        var displayedMonth = 1;
         var displayedDate = new Date();
+ 
+        var calendarState = {
+            month: displayedDate.getMonth() + 1,
+            year: displayedDate.getFullYear(),
+            position: 0,
+            previous: false,
+            next: 5
+        }
+
+console.log(calendarState.previous);
+console.log(calendarState.next);
+console.log(calendarState.month);
+console.log(calendarState.year);
+
+
 
 /*        var eventData = [
             {"date":"2020-12-16", "badge":true,"title":"Example 1", "classname":"proposition"},
@@ -61,6 +78,7 @@
             {"date":"2020-12-27","badge":false,"title":"Example 3","classname":"proposition"},
         ];
 */
+
         var eventData = [];
 
         var elem = jQuery('#my-calendar');
@@ -70,8 +88,16 @@
                 language: "fr",
                 cell_border: true,
                 today: false,
-                show_previous: false,
-                show_next: 6,
+                // show_previous: false,
+                // show_next: 6,
+                // month: 1, // janvier
+                // year:2020,
+                show_previous: calendarState.previous,
+                show_next: calendarState.next,
+                month: calendarState.month,
+                year: calendarState.year,
+
+
                 // show_days: false,
                 // weekstartson: 0,
                 nav_icon: {
@@ -98,8 +124,21 @@
         };
 
         $(document).ready(function () {           
+            // now load of Events is done directly withe the page
+            /*
             let periode = displayedDate.getFullYear() + '-' + (displayedDate.getMonth() + 1)
             loadEventData(periode)
+            */
+
+            var evtData = document.querySelector('.js-event-data');
+            var tmpdata = evtData.dataset.eventData;
+            var tmpIdx = tmpdata.indexOf('[');
+            tmpdata = tmpdata.substring(tmpIdx);
+            // console.log(typeof (tmpdata));
+            // console.log(JSON.parse(tmpdata));
+            eventData = JSON.parse(tmpdata);
+
+            loadCalendar();
         });
 
         function myDateFunction(id) {
@@ -132,7 +171,31 @@
         function myNavFunction(id) {
             var nav = $("#" + id).data("navigation");
             var to = $("#" + id).data("to");
-            console.log('nav ' + nav + ' to: ' + to.month + '/' + to.year);
+            // console.log('nav ' + nav + ' to: ' + to.month + '/' + to.year);
+
+            if (nav==='prev') {
+                calendarState.position--
+                // console.log('prev' + calendarState.position)
+
+                calendarState.next = 5 - calendarState.position;
+                if ( calendarState.position === 0)
+                    calendarState.previous = false
+                else
+                    calendarState.previous = calendarState.position;
+
+            } else {
+                calendarState.position++
+                // console.log('next' + calendarState.position)
+
+                calendarState.previous = calendarState.position
+                if ( calendarState.position === 5)
+                    calendarState.next = false
+                else
+                    calendarState.next = 5 - calendarState.position;
+
+            }
+            calendarState.month = to.month;
+            calendarState.year = to.year;
         }
 
         function loadEventData(periode) {
