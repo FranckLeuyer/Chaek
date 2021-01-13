@@ -2,16 +2,16 @@
 
 {% block stylesheets %}
     <style>
-        #prestation_startDate_time_hour {
+        #prestation_update_startDate_time_hour {
             display:none;
         }
-        #prestation_endDate_time_hour {
+        #prestation_update_endDate_time_hour {
             display:none;
         }
-        #prestation_startDate_time_minute {
+        #prestation_update_startDate_time_minute {
             display:none;
         }
-        #prestation_endDate_time_minute {
+        #prestation_update_endDate_time_minute {
             display:none;
         }
     </style>    
@@ -28,5 +28,7 @@
     <a href="{{ path('prestation_index') }}">retour à la liste</a>
 
     {{ include('prestation/_delete_form.html.twig') }}
+
+    {{ form(usersForm)}}
 
 {% endblock %}

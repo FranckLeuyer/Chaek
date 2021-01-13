@@ -2,8 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Calendar;
+use App\Repository\CalendarRepository;
 use App\Entity\Prestation;
 use App\Form\PrestationUpdateType;
+use App\Form\PrestationUserType;
 use App\Repository\PrestationRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -68,15 +71,29 @@ class PrestationController extends AbstractController
         $form = $this->createForm(PrestationUpdateType::class, $prestation);
         $form->handleRequest($request);
 
+        $calendarRepository = $this->getDoctrine()->getRepository(Calendar::class);
+        $calendars = $calendarRepository->findByDateJoinedToUser($prestation->getStartDate(), $prestation->getEndDate());
+        dump($calendars);
+        $usersForm = $this->createForm(PrestationUserType::class, null, ['prestaUsers' => $calendars]);
+        $usersForm->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('prestation_index');
         }
 
+        if ($usersForm->isSubmitted() && $usersForm->isValid()) {
+            dump($usersForm->getData());
+
+
+            
+        }
+
         return $this->render('prestation/edit.html.twig', [
             'prestation' => $prestation,
             'form' => $form->createView(),
+            'usersForm'=>$usersForm->createView(),
         ]);
     }
 
