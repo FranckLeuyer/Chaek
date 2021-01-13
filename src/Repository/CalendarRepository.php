@@ -38,6 +38,40 @@ class CalendarRepository extends ServiceEntityRepository
         ;
     }
 
+    /**
+     * @return Calendar[] Returns an array of Calendar objects
+     */
+    public function findByDateJoinedToUser($startDate, $endDate)
+    {
+        return $this->createQueryBuilder('c')
+            // ->select('COUNT(c.id)')
+            ->select('u.id', 'c.badge', 'u.civility', 'u.firstName', 'u.lastName','u.email')
+            ->andWhere('c.date >= :startDate')
+            ->andWhere('c.date <= :endDate')
+            ->setParameter('startDate', $startDate)
+            ->setParameter('endDate', $endDate)
+            ->groupBy('c.user')
+            ->leftJoin('c.user', 'u')
+            ->having('COUNT(c.id) = :some_count')
+            ->setParameter('some_count', 3)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+/*
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.date >= :startDate')
+            ->andWhere('c.date <= :endDate')
+            ->setParameter('startDate', $startDate)
+            ->setParameter('endDate', $endDate)
+            ->groupBy('c.user')
+
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+*/
     // /**
     //  * @return Calendar[] Returns an array of Calendar objects
     //  */

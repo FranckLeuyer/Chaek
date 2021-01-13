@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mailing index{% endblock %}
+
+{% block body %}
+    <h1>Mailing index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Ref</th>
+                <th>Subject</th>
+                <th>Content</th>
+                <th>Html</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for mailing in mailings %}
+            <tr>
+                <td>{{ mailing.id }}</td>
+                <td>{{ mailing.ref }}</td>
+                <td>{{ mailing.subject }}</td>
+                <td>{{ mailing.content }}</td>
+                <td>{{ mailing.html }}</td>
+                <td>
+                    <a href="{{ path('mailing_show', {'id': mailing.id}) }}">show</a>
+                    <a href="{{ path('mailing_edit', {'id': mailing.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('mailing_new') }}">Create new</a>
+{% endblock %}
